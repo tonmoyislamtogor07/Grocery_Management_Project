@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FreshMart - Grocery Suppliers & Vendors</title>
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/suppliers.css">
+</head>
+<body>
+
+  <div class="app-layout">
+    <!-- ====================================================================
+         SIDEBAR NAVIGATION
+         ==================================================================== -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-icon">🛒</div>
+        <div class="brand-text">
+          <h2>FreshMart</h2>
+          <span>Grocery ERP</span>
+        </div>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li class="menu-category-title">Core</li>
+        <li class="menu-item">
+          <a href="../index.html">
+            <span class="menu-icon">📊</span>
+            <span>Dashboard</span>
+          </a>
+        </li>
+
+        <li class="menu-category-title">Catalog & Stock</li>
+        <li class="menu-item">
+          <a href="products.html">
+            <span class="menu-icon">📦</span>
+            <span>Products</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="categories.html">
+            <span class="menu-icon">📑</span>
+            <span>Categories</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="inventory.html">
+            <span class="menu-icon">🏷️</span>
+            <span>Inventory</span>
+          </a>
+        </li>
+
+        <li class="menu-category-title">Operations</li>
+        <li class="menu-item">
+          <a href="sales.html">
+            <span class="menu-icon">🛒</span>
+            <span>Sales (POS)</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="purchases.html">
+            <span class="menu-icon">📥</span>
+            <span>Purchases</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="expenses.html">
+            <span class="menu-icon">💸</span>
+            <span>Expenses</span>
+          </a>
+        </li>
+
+        <li class="menu-category-title">People & Finance</li>
+        <li class="menu-item active">
+          <a href="suppliers.html">
+            <span class="menu-icon">🚚</span>
+            <span>Suppliers</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="customers.html">
+            <span class="menu-icon">👥</span>
+            <span>Customers</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="payments.html">
+            <span class="menu-icon">💳</span>
+            <span>Payments</span>
+          </a>
+        </li>
+
+        <li class="menu-category-title">Analytics</li>
+        <li class="menu-item">
+          <a href="reports.html">
+            <span class="menu-icon">📈</span>
+            <span>Reports</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <div class="user-avatar">AD</div>
+        <div class="user-info">
+          <div class="user-name">Manager Admin</div>
+          <div class="user-role">Super Admin</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ====================================================================
+         MAIN CONTENT
+         ==================================================================== -->
+    <div class="main-wrapper">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button id="mobile-menu-toggle" class="btn-icon-only" style="display: none;">☰</button>
+          <div class="page-title">
+            <h1>Suppliers & Vendors</h1>
+            <p>Manage wholesale suppliers, purchase track records, and payable balances.</p>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <div class="time-badge" id="live-clock">
+            Loading date...
+          </div>
+        </div>
+      </header>
+
+      <main class="page-content">
+
+        <!-- 1. Stats Chips Row -->
+        <div class="supplier-stats-grid">
+          <div class="card" style="padding: 16px 20px; display: flex; align-items: center; justify-content: space-between;">
+            <div>
+              <div style="font-size: 0.78rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase;">Total Suppliers</div>
+              <div style="font-size: 1.4rem; font-weight: 800;" id="stat-total-suppliers">0</div>
+            </div>
+            <div style="font-size: 1.6rem;">🚚</div>
+          </div>
+
+          <div class="card" style="padding: 16px 20px; display: flex; align-items: center; justify-content: space-between;">
+            <div>
+              <div style="font-size: 0.78rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase;">Outstanding Due (Payable)</div>
+              <div style="font-size: 1.4rem; font-weight: 800; color: var(--danger);" id="stat-total-due">৳ 0</div>
+            </div>
+            <div style="font-size: 1.6rem;">💳</div>
+          </div>
+
+          <div class="card" style="padding: 16px 20px; display: flex; align-items: center; justify-content: space-between;">
+            <div>
+              <div style="font-size: 0.78rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase;">Vendor Health</div>
+              <div style="font-size: 1.2rem; font-weight: 800; color: var(--primary);" id="stat-active-vendors">0</div>
+            </div>
+            <div style="font-size: 1.6rem;">🤝</div>
+          </div>
+        </div>
+
+        <!-- 2. Search & Filter Bar -->
+        <div class="card" style="padding: 16px 24px; margin-bottom: 24px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+            <div class="search-box" style="width: 340px;">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="supplier-search" placeholder="Search supplier by name, phone, or location...">
+            </div>
+
+            <button class="topbar-btn btn-primary" onclick="openAddSupplierModal()">
+              <span>➕</span> Register New Supplier
+            </button>
+          </div>
+        </div>
+
+        <!-- 3. Suppliers Cards Grid -->
+        <div class="categories-grid" id="suppliers-container">
+          <!-- Rendered dynamically via suppliers.js -->
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       MODAL: ADD / EDIT SUPPLIER
+       ==================================================================== -->
+  <div class="modal-overlay" id="supplier-form-modal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 id="supplier-modal-title">Add New Grocery Supplier</h3>
+        <button class="modal-close" onclick="closeModal('supplier-form-modal')">&times;</button>
+      </div>
+
+      <form id="supplier-form" onsubmit="handleSaveSupplier(event)">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="sup-name">Supplier / Company Name *</label>
+            <input type="text" id="sup-name" class="form-control" placeholder="e.g. Meghna Agro Ltd." required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="sup-contact">Contact Phone *</label>
+              <input type="text" id="sup-contact" class="form-control" placeholder="01711-XXXXXX" required>
+            </div>
+            <div class="form-group">
+              <label for="sup-email">Email Address</label>
+              <input type="email" id="sup-email" class="form-control" placeholder="contact@supplier.com">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="sup-address">Warehouse / Office Location</label>
+            <input type="text" id="sup-address" class="form-control" placeholder="e.g. Tejgaon I/A, Dhaka">
+          </div>
+
+          <div class="form-group">
+            <label for="sup-due">Initial Due Balance (৳)</label>
+            <input type="number" id="sup-due" class="form-control" value="0" min="0">
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeModal('supplier-form-modal')">Cancel</button>
+          <button type="submit" class="btn-primary">Save Supplier</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       MODAL: SUPPLIER DETAILS
+       ==================================================================== -->
+  <div class="modal-overlay" id="supplier-details-modal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3>Supplier Profile</h3>
+        <button class="modal-close" onclick="closeModal('supplier-details-modal')">&times;</button>
+      </div>
+      <div class="modal-body" id="supplier-details-body">
+        <!-- Rendered dynamically -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeModal('supplier-details-modal')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       MODAL: SUPPLIER PURCHASE HISTORY
+       ==================================================================== -->
+  <div class="modal-overlay" id="supplier-history-modal">
+    <div class="modal-container" style="max-width: 680px;">
+      <div class="modal-header">
+        <h3 id="sup-history-title">Purchase Order History</h3>
+        <button class="modal-close" onclick="closeModal('supplier-history-modal')">&times;</button>
+      </div>
+
+      <div class="modal-body" style="padding: 0;">
+        <table class="supplier-history-table">
+          <thead>
+            <tr>
+              <th>PO Number</th>
+              <th>Order Date</th>
+              <th>Total Amount</th>
+              <th>Paid Amount</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="sup-history-tbody">
+            <!-- Rendered dynamically -->
+          </tbody>
+        </table>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeModal('supplier-history-modal')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/common.js"></script>
+  <script src="../js/suppliers.js"></script>
+</body>
+</html>

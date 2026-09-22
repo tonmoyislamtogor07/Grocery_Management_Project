@@ -1,0 +1,74 @@
+/* ==========================================================================
+   CUSTOMERS SPECIFIC STYLES (Pure Vanilla CSS)
+   ========================================================================== */
+
+.customer-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.customer-avatar-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.customer-avatar-circle {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--primary-light);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.customer-name-bold {
+  font-weight: 700;
+  color: var(--text-main);
+  font-size: 0.9rem;
+}
+
+.customer-phone-sub {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+}
+
+.points-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #fef3c7;
+  color: #b45309;
+  padding: 3px 8px;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.customer-history-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.customer-history-table th {
+  background: var(--bg-main);
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.customer-history-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border-light);
+}

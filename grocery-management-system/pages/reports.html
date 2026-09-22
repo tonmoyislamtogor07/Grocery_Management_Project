@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FreshMart - Analytics & Business Reports</title>
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/reports.css">
+</head>
+<body>
+
+  <div class="app-layout">
+    <!-- ====================================================================
+         SIDEBAR NAVIGATION
+         ==================================================================== -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-icon">🛒</div>
+        <div class="brand-text">
+          <h2>FreshMart</h2>
+          <span>Grocery ERP</span>
+        </div>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li class="menu-category-title">Core</li>
+        <li class="menu-item">
+          <a href="../index.html">
+            <span class="menu-icon">📊</span>
+            <span>Dashboard</span>
+          </a>
+        </li>
+
+        <li class="menu-category-title">Catalog & Stock</li>
+        <li class="menu-item">
+          <a href="products.html">
+            <span class="menu-icon">📦</span>
+            <span>Products</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="categories.html">
+            <span class="menu-icon">📑</span>
+            <span>Categories</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="inventory.html">
+            <span class="menu-icon">🏷️</span>
+            <span>Inventory</span>
+          </a>
+        </li>
+
+        <li class="menu-category-title">Operations</li>
+        <li class="menu-item">
+          <a href="sales.html">
+            <span class="menu-icon">🛒</span>
+            <span>Sales (POS)</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="purchases.html">
+            <span class="menu-icon">📥</span>
+            <span>Purchases</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="expenses.html">
+            <span class="menu-icon">💸</span>
+            <span>Expenses</span>
+          </a>
+        </li>
+
+        <li class="menu-category-title">People & Finance</li>
+        <li class="menu-item">
+          <a href="suppliers.html">
+            <span class="menu-icon">🚚</span>
+            <span>Suppliers</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="customers.html">
+            <span class="menu-icon">👥</span>
+            <span>Customers</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="payments.html">
+            <span class="menu-icon">💳</span>
+            <span>Payments</span>
+          </a>
+        </li>
+
+        <li class="menu-category-title">Analytics</li>
+        <li class="menu-item active">
+          <a href="reports.html">
+            <span class="menu-icon">📈</span>
+            <span>Reports</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <div class="user-avatar">AD</div>
+        <div class="user-info">
+          <div class="user-name">Manager Admin</div>
+          <div class="user-role">Super Admin</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ====================================================================
+         MAIN CONTENT
+         ==================================================================== -->
+    <div class="main-wrapper">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button id="mobile-menu-toggle" class="btn-icon-only" style="display: none;">☰</button>
+          <div class="page-title">
+            <h1>Business Analytics & Reports</h1>
+            <p>Exportable performance ledgers, profit margins, and inventory health reports.</p>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <div class="time-badge" id="live-clock">
+            Loading date...
+          </div>
+          <button class="topbar-btn btn-secondary" onclick="exportReportCSV()">
+            <span>📥</span> Export CSV
+          </button>
+          <button class="topbar-btn btn-primary" onclick="window.print()">
+            <span>🖨️</span> Print Report
+          </button>
+        </div>
+      </header>
+
+      <main class="page-content">
+
+        <div class="reports-layout">
+
+          <!-- Left Column: Reports Switcher Menu -->
+          <div class="reports-nav-card">
+            <div class="report-nav-group-title">Revenue & Sales</div>
+            <button class="report-nav-item active" data-report="daily-sales">
+              <span>📊</span> Daily Sales
+            </button>
+            <button class="report-nav-item" data-report="monthly-sales">
+              <span>📅</span> Monthly Sales
+            </button>
+            <button class="report-nav-item" data-report="yearly-sales">
+              <span>📈</span> Yearly Sales
+            </button>
+
+            <div class="report-nav-group-title" style="margin-top: 10px;">Profit & Operations</div>
+            <button class="report-nav-item" data-report="profit-report">
+              <span>💰</span> Profit & Loss Report
+            </button>
+            <button class="report-nav-item" data-report="top-products">
+              <span>🏆</span> Top Selling Products
+            </button>
+            <button class="report-nav-item" data-report="purchase-report">
+              <span>📥</span> Purchase Report
+            </button>
+            <button class="report-nav-item" data-report="expense-report">
+              <span>💸</span> Expense Report
+            </button>
+
+            <div class="report-nav-group-title" style="margin-top: 10px;">Inventory & Stakeholders</div>
+            <button class="report-nav-item" data-report="low-stock">
+              <span>⚠️</span> Low Stock Report
+            </button>
+            <button class="report-nav-item" data-report="out-stock">
+              <span>❌</span> Out of Stock Report
+            </button>
+            <button class="report-nav-item" data-report="supplier-report">
+              <span>🚚</span> Supplier Report
+            </button>
+          </div>
+
+          <!-- Right Column: Dynamic Report Display Panel -->
+          <div class="report-content-panel">
+
+            <!-- Report Header Card -->
+            <div class="report-header-card">
+              <div>
+                <h2 id="report-view-title" style="font-size: 1.25rem; font-weight: 800; color: var(--text-main);">Daily Sales Report</h2>
+                <p id="report-view-subtitle" style="font-size: 0.84rem; color: var(--text-muted); margin-top: 2px;">Loading report data...</p>
+              </div>
+
+              <div style="display: flex; gap: 8px;">
+                <button class="quick-btn" onclick="exportReportCSV()">📥 CSV</button>
+                <button class="quick-btn primary-action" onclick="window.print()">🖨️ Print</button>
+              </div>
+            </div>
+
+            <!-- Report Dynamic KPIs -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;" id="report-kpis-container">
+              <!-- Rendered via JS -->
+            </div>
+
+            <!-- Report Dynamic Chart Card -->
+            <div class="report-chart-card" id="report-chart-card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title" id="report-chart-title">Visual Analytics</div>
+                  <div class="card-subtitle">Real-time graphic representation</div>
+                </div>
+              </div>
+              <div class="report-chart-box" id="report-chart-container">
+                <!-- Rendered via JS -->
+              </div>
+            </div>
+
+            <!-- Report Data Table Card -->
+            <div class="card">
+              <div class="table-responsive">
+                <table class="custom-table" id="report-table">
+                  <thead id="report-thead">
+                    <!-- Rendered via JS -->
+                  </thead>
+                  <tbody id="report-tbody">
+                    <!-- Rendered via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/common.js"></script>
+  <script src="../js/reports.js"></script>
+</body>
+</html>

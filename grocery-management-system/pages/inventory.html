@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FreshMart - Inventory Control & Stock Health</title>
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/inventory.css">
+</head>
+<body>
+
+  <div class="app-layout">
+    <!-- ====================================================================
+         SIDEBAR NAVIGATION
+         ==================================================================== -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-icon">🛒</div>
+        <div class="brand-text">
+          <h2>FreshMart</h2>
+          <span>Grocery ERP</span>
+        </div>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li class="menu-category-title">Core</li>
+        <li class="menu-item">
+          <a href="../index.html">
+            <span class="menu-icon">📊</span>
+            <span>Dashboard</span>
+          </a>
+        </li>
+
+        <li class="menu-category-title">Catalog & Stock</li>
+        <li class="menu-item">
+          <a href="products.html">
+            <span class="menu-icon">📦</span>
+            <span>Products</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="categories.html">
+            <span class="menu-icon">📑</span>
+            <span>Categories</span>
+          </a>
+        </li>
+        <li class="menu-item active">
+          <a href="inventory.html">
+            <span class="menu-icon">🏷️</span>
+            <span>Inventory</span>
+          </a>
+        </li>
+
+        <li class="menu-category-title">Operations</li>
+        <li class="menu-item">
+          <a href="sales.html">
+            <span class="menu-icon">🛒</span>
+            <span>Sales (POS)</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="purchases.html">
+            <span class="menu-icon">📥</span>
+            <span>Purchases</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="expenses.html">
+            <span class="menu-icon">💸</span>
+            <span>Expenses</span>
+          </a>
+        </li>
+
+        <li class="menu-category-title">People & Finance</li>
+        <li class="menu-item">
+          <a href="suppliers.html">
+            <span class="menu-icon">🚚</span>
+            <span>Suppliers</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="customers.html">
+            <span class="menu-icon">👥</span>
+            <span>Customers</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="payments.html">
+            <span class="menu-icon">💳</span>
+            <span>Payments</span>
+          </a>
+        </li>
+
+        <li class="menu-category-title">Analytics</li>
+        <li class="menu-item">
+          <a href="reports.html">
+            <span class="menu-icon">📈</span>
+            <span>Reports</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <div class="user-avatar">AD</div>
+        <div class="user-info">
+          <div class="user-name">Manager Admin</div>
+          <div class="user-role">Super Admin</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ====================================================================
+         MAIN CONTENT
+         ==================================================================== -->
+    <div class="main-wrapper">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button id="mobile-menu-toggle" class="btn-icon-only" style="display: none;">☰</button>
+          <div class="page-title">
+            <h1>Inventory Management</h1>
+            <p>Live stock health indicators, manual stock-in/out, and batch expiry tracking.</p>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <div class="time-badge" id="live-clock">
+            Loading date...
+          </div>
+          <button class="topbar-btn btn-primary" onclick="openModal('stock-in-modal')">
+            <span>📥</span> Stock In
+          </button>
+          <button class="topbar-btn btn-secondary" onclick="openModal('stock-out-modal')">
+            <span>📤</span> Stock Out
+          </button>
+        </div>
+      </header>
+
+      <main class="page-content">
+
+        <!-- 1. Stats Chips Row -->
+        <div class="inventory-stats-grid">
+          <div class="card" style="padding: 16px 20px; display: flex; align-items: center; justify-content: space-between;">
+            <div>
+              <div style="font-size: 0.78rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase;">Total Stock Units</div>
+              <div style="font-size: 1.4rem; font-weight: 800;" id="stat-total-units">0</div>
+            </div>
+            <div style="font-size: 1.6rem;">🏷️</div>
+          </div>
+
+          <div class="card" style="padding: 16px 20px; display: flex; align-items: center; justify-content: space-between;">
+            <div>
+              <div style="font-size: 0.78rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase;">Low Stock Warning (≤ threshold)</div>
+              <div style="font-size: 1.4rem; font-weight: 800; color: var(--warning);" id="stat-low-stock-count">0</div>
+            </div>
+            <div style="font-size: 1.6rem;">⚠️</div>
+          </div>
+
+          <div class="card" style="padding: 16px 20px; display: flex; align-items: center; justify-content: space-between;">
+            <div>
+              <div style="font-size: 0.78rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase;">Out of Stock (0)</div>
+              <div style="font-size: 1.4rem; font-weight: 800; color: var(--danger);" id="stat-out-stock-count">0</div>
+            </div>
+            <div style="font-size: 1.6rem;">❌</div>
+          </div>
+
+          <div class="card" style="padding: 16px 20px; display: flex; align-items: center; justify-content: space-between;">
+            <div>
+              <div style="font-size: 0.78rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase;">Expiring Soon (&lt; 30d)</div>
+              <div style="font-size: 1.4rem; font-weight: 800; color: #dc2626;" id="stat-expiring-count">0</div>
+            </div>
+            <div style="font-size: 1.6rem;">⏳</div>
+          </div>
+        </div>
+
+        <!-- 2. Inventory Tabs & Search Toolbar -->
+        <div class="card" style="padding: 18px 24px; margin-bottom: 24px;">
+          <div class="inventory-filter-tabs">
+            <button class="inv-tab-btn active" onclick="setInventoryFilter('ALL', this)">
+              <span>📦 All Stock Items</span>
+              <span class="badge-count" id="badge-tab-all">0</span>
+            </button>
+            <button class="inv-tab-btn" onclick="setInventoryFilter('LOW', this)">
+              <span>⚠️ Low Stock</span>
+              <span class="badge-count" id="badge-tab-low">0</span>
+            </button>
+            <button class="inv-tab-btn" onclick="setInventoryFilter('OUT', this)">
+              <span>❌ Out of Stock</span>
+              <span class="badge-count" id="badge-tab-out">0</span>
+            </button>
+            <button class="inv-tab-btn" onclick="setInventoryFilter('EXPIRING', this)">
+              <span>⏳ Expiring Soon</span>
+              <span class="badge-count" id="badge-tab-expiring">0</span>
+            </button>
+            <button class="inv-tab-btn" onclick="setInventoryFilter('HISTORY', this)">
+              <span>📜 Movement History</span>
+            </button>
+          </div>
+
+          <div class="search-box" style="width: 360px;">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="inventory-search" placeholder="Search by item, barcode, or category...">
+          </div>
+        </div>
+
+        <!-- 3. Current Stock Table Card -->
+        <div class="card" id="stock-table-card">
+          <div class="table-responsive">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>Barcode</th>
+                  <th>Product & Category</th>
+                  <th>Current Stock</th>
+                  <th>Stock Health</th>
+                  <th>Expiry Date</th>
+                  <th>Unit Price</th>
+                  <th>Quick Action</th>
+                </tr>
+              </thead>
+              <tbody id="inventory-tbody">
+                <!-- Rendered dynamically via inventory.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 4. Movement History Table Card -->
+        <div class="card" id="history-table-card" style="display: none;">
+          <div class="table-responsive">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>Log ID</th>
+                  <th>Timestamp</th>
+                  <th>Movement Type</th>
+                  <th>Product</th>
+                  <th>Adjustment Qty</th>
+                  <th>Reason / Note</th>
+                </tr>
+              </thead>
+              <tbody id="inv-history-tbody">
+                <!-- Rendered dynamically via inventory.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       MODAL: STOCK IN (RESTOCK)
+       ==================================================================== -->
+  <div class="modal-overlay" id="stock-in-modal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3>Manual Stock In (Add Units)</h3>
+        <button class="modal-close" onclick="closeModal('stock-in-modal')">&times;</button>
+      </div>
+
+      <form onsubmit="handleSaveStockIn(event)">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="stock-in-product">Select Product *</label>
+            <select id="stock-in-product" class="form-control" required>
+              <!-- Populated dynamically -->
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="stock-in-qty">Quantity to Add *</label>
+            <input type="number" id="stock-in-qty" class="form-control" min="1" value="10" required>
+          </div>
+
+          <div class="form-group">
+            <label for="stock-in-note">Source / Reference Note</label>
+            <input type="text" id="stock-in-note" class="form-control" placeholder="e.g. Supplier extra shipment, warehouse balance">
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeModal('stock-in-modal')">Cancel</button>
+          <button type="submit" class="btn-primary">Add to Stock</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       MODAL: STOCK OUT (DAMAGE / ADJUSTMENT)
+       ==================================================================== -->
+  <div class="modal-overlay" id="stock-out-modal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3>Manual Stock Out (Deduct Units)</h3>
+        <button class="modal-close" onclick="closeModal('stock-out-modal')">&times;</button>
+      </div>
+
+      <form onsubmit="handleSaveStockOut(event)">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="stock-out-product">Select Product *</label>
+            <select id="stock-out-product" class="form-control" required>
+              <!-- Populated dynamically -->
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="stock-out-qty">Quantity to Deduct *</label>
+            <input type="number" id="stock-out-qty" class="form-control" min="1" value="1" required>
+          </div>
+
+          <div class="form-group">
+            <label for="stock-out-reason">Reason for Reduction *</label>
+            <select id="stock-out-reason" class="form-control" required>
+              <option value="Damaged / Leaked Goods">Damaged / Leaked Goods</option>
+              <option value="Expired Stock Removal">Expired Stock Removal</option>
+              <option value="Inventory Audit Discrepancy">Inventory Audit Discrepancy</option>
+              <option value="Supplier Return">Supplier Return</option>
+              <option value="Personal / Store Consumption">Personal / Store Consumption</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeModal('stock-out-modal')">Cancel</button>
+          <button type="submit" class="btn-danger">Confirm Deduction</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/common.js"></script>
+  <script src="../js/inventory.js"></script>
+</body>
+</html>

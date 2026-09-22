@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FreshMart - Product Catalog & Management</title>
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/products.css">
+</head>
+<body>
+
+  <div class="app-layout">
+    <!-- ====================================================================
+         SIDEBAR NAVIGATION
+         ==================================================================== -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-icon">🛒</div>
+        <div class="brand-text">
+          <h2>FreshMart</h2>
+          <span>Grocery ERP</span>
+        </div>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li class="menu-category-title">Core</li>
+        <li class="menu-item">
+          <a href="../index.html">
+            <span class="menu-icon">📊</span>
+            <span>Dashboard</span>
+          </a>
+        </li>
+
+        <li class="menu-category-title">Catalog & Stock</li>
+        <li class="menu-item active">
+          <a href="products.html">
+            <span class="menu-icon">📦</span>
+            <span>Products</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="categories.html">
+            <span class="menu-icon">📑</span>
+            <span>Categories</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="inventory.html">
+            <span class="menu-icon">🏷️</span>
+            <span>Inventory</span>
+          </a>
+        </li>
+
+        <li class="menu-category-title">Operations</li>
+        <li class="menu-item">
+          <a href="sales.html">
+            <span class="menu-icon">🛒</span>
+            <span>Sales (POS)</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="purchases.html">
+            <span class="menu-icon">📥</span>
+            <span>Purchases</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="expenses.html">
+            <span class="menu-icon">💸</span>
+            <span>Expenses</span>
+          </a>
+        </li>
+
+        <li class="menu-category-title">People & Finance</li>
+        <li class="menu-item">
+          <a href="suppliers.html">
+            <span class="menu-icon">🚚</span>
+            <span>Suppliers</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="customers.html">
+            <span class="menu-icon">👥</span>
+            <span>Customers</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="payments.html">
+            <span class="menu-icon">💳</span>
+            <span>Payments</span>
+          </a>
+        </li>
+
+        <li class="menu-category-title">Analytics</li>
+        <li class="menu-item">
+          <a href="reports.html">
+            <span class="menu-icon">📈</span>
+            <span>Reports</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <div class="user-avatar">AD</div>
+        <div class="user-info">
+          <div class="user-name">Manager Admin</div>
+          <div class="user-role">Super Admin</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ====================================================================
+         MAIN CONTENT
+         ==================================================================== -->
+    <div class="main-wrapper">
+      <!-- Topbar Header -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button id="mobile-menu-toggle" class="btn-icon-only" style="display: none;">☰</button>
+          <div class="page-title">
+            <h1>Products Directory</h1>
+            <p>View, add, edit, and organize grocery products with real-time stock monitoring.</p>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <div class="time-badge" id="live-clock">
+            Loading date...
+          </div>
+          <button class="topbar-btn btn-primary" onclick="openAddProductModal()">
+            <span>➕</span> Add Product
+          </button>
+        </div>
+      </header>
+
+      <!-- Page Content Body -->
+      <main class="page-content">
+
+        <!-- 1. Stats Chips Row -->
+        <div class="product-stats-grid">
+          <div class="stat-chip total">
+            <div class="stat-chip-info">
+              <span>Total Items</span>
+              <strong id="stat-total-products">0</strong>
+            </div>
+            <div class="stat-chip-icon">📦</div>
+          </div>
+
+          <div class="stat-chip instock">
+            <div class="stat-chip-info">
+              <span>Healthy Stock</span>
+              <strong id="stat-instock">0</strong>
+            </div>
+            <div class="stat-chip-icon">✅</div>
+          </div>
+
+          <div class="stat-chip lowstock">
+            <div class="stat-chip-info">
+              <span>Low / Out of Stock</span>
+              <strong id="stat-lowstock">0</strong>
+            </div>
+            <div class="stat-chip-icon">⚠️</div>
+          </div>
+
+          <div class="stat-chip value">
+            <div class="stat-chip-info">
+              <span>Stock Valuation</span>
+              <strong id="stat-inventory-val">৳ 0</strong>
+            </div>
+            <div class="stat-chip-icon">💵</div>
+          </div>
+        </div>
+
+        <!-- 2. Search & Filter Toolbar -->
+        <div class="filter-toolbar">
+          <div class="search-filter-group">
+            <div class="filter-input-wrap">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="product-search" placeholder="Search by name, SKU, or barcode...">
+            </div>
+
+            <select id="category-filter" class="filter-select">
+              <option value="ALL">All Categories</option>
+            </select>
+
+            <select id="stock-filter" class="filter-select">
+              <option value="ALL">All Stock Levels</option>
+              <option value="INSTOCK">Healthy Stock (above threshold)</option>
+              <option value="LOW">Low Stock (at/below threshold)</option>
+              <option value="OUT">Out of Stock (0)</option>
+            </select>
+          </div>
+
+          <div class="toolbar-actions">
+            <button class="btn-secondary topbar-btn" onclick="openAddProductModal()">
+              <span>➕</span> New Item
+            </button>
+          </div>
+        </div>
+
+        <!-- 3. Products Table Card -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">
+                <span>🛒</span> Grocery Catalog Items
+              </div>
+              <div class="card-subtitle">Manage prices, margins, barcode and stock units</div>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>Barcode</th>
+                  <th>Product & Category</th>
+                  <th>Pricing & Margin</th>
+                  <th>Current Stock</th>
+                  <th>Expiry Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="products-tbody">
+                <!-- Rendered dynamically via products.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       MODAL: ADD / EDIT PRODUCT
+       ==================================================================== -->
+  <div class="modal-overlay" id="product-form-modal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 id="product-modal-title">Add New Grocery Product</h3>
+        <button class="modal-close" onclick="closeModal('product-form-modal')">&times;</button>
+      </div>
+
+      <form id="product-form" onsubmit="handleSaveProduct(event)">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="prod-name">Product Name *</label>
+            <input type="text" id="prod-name" class="form-control" placeholder="e.g. Miniket Premium Rice" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="prod-barcode">Barcode / SKU</label>
+              <input type="text" id="prod-barcode" class="form-control" placeholder="89410001">
+            </div>
+            <div class="form-group">
+              <label for="prod-category">Category *</label>
+              <select id="prod-category" class="form-control" required>
+                <!-- Populated via JS -->
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="prod-buy-price">Purchase Cost (৳) *</label>
+              <input type="number" id="prod-buy-price" class="form-control" step="0.5" min="0" placeholder="70" required>
+            </div>
+            <div class="form-group">
+              <label for="prod-sell-price">Selling Price (৳) *</label>
+              <input type="number" id="prod-sell-price" class="form-control" step="0.5" min="0" placeholder="85" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="prod-stock">Current Stock Qty *</label>
+              <input type="number" id="prod-stock" class="form-control" min="0" placeholder="50" required>
+            </div>
+            <div class="form-group">
+              <label for="prod-unit">Unit of Measure *</label>
+              <select id="prod-unit" class="form-control" required>
+                <option value="kg">kg (Kilogram)</option>
+                <option value="gram">gram (Gram)</option>
+                <option value="liter">liter (Liter)</option>
+                <option value="ml">ml (Milliliter)</option>
+                <option value="pcs">pcs (Pieces)</option>
+                <option value="packet">packet</option>
+                <option value="pack">pack</option>
+                <option value="bottle">bottle</option>
+                <option value="dozen">dozen</option>
+                <option value="box">box</option>
+                <option value="gm">gm (Gram, legacy)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="prod-expiry">Expiry Date</label>
+              <input type="date" id="prod-expiry" class="form-control" value="2027-12-31">
+            </div>
+            <div class="form-group">
+              <label for="prod-threshold">Low Stock Threshold (in unit)</label>
+              <input type="number" id="prod-threshold" class="form-control" min="0" value="10" required>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeModal('product-form-modal')">Cancel</button>
+          <button type="submit" class="btn-primary">Save Product</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       MODAL: PRODUCT DETAILS VIEW
+       ==================================================================== -->
+  <div class="modal-overlay" id="product-details-modal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3>Product Details</h3>
+        <button class="modal-close" onclick="closeModal('product-details-modal')">&times;</button>
+      </div>
+      <div class="modal-body" id="product-details-body">
+        <!-- Rendered dynamically -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeModal('product-details-modal')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/common.js"></script>
+  <script src="../js/products.js"></script>
+</body>
+</html>

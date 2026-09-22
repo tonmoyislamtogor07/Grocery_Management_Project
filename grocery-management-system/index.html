@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FreshMart - Grocery Management System | Dashboard</title>
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+
+  <div class="app-layout">
+    <!-- ====================================================================
+         SIDEBAR NAVIGATION
+         ==================================================================== -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-icon">🛒</div>
+        <div class="brand-text">
+          <h2>FreshMart</h2>
+          <span>Grocery ERP</span>
+        </div>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li class="menu-category-title">Core</li>
+        <li class="menu-item active">
+          <a href="index.html">
+            <span class="menu-icon">📊</span>
+            <span>Dashboard</span>
+          </a>
+        </li>
+
+        <li class="menu-category-title">Catalog & Stock</li>
+        <li class="menu-item">
+          <a href="pages/products.html">
+            <span class="menu-icon">📦</span>
+            <span>Products</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="pages/categories.html">
+            <span class="menu-icon">📑</span>
+            <span>Categories</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="pages/inventory.html">
+            <span class="menu-icon">🏷️</span>
+            <span>Inventory</span>
+            <span class="menu-badge" id="sidebar-stock-badge">3</span>
+          </a>
+        </li>
+
+        <li class="menu-category-title">Operations</li>
+        <li class="menu-item">
+          <a href="pages/sales.html">
+            <span class="menu-icon">🛒</span>
+            <span>Sales (POS)</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="pages/purchases.html">
+            <span class="menu-icon">📥</span>
+            <span>Purchases</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="pages/expenses.html">
+            <span class="menu-icon">💸</span>
+            <span>Expenses</span>
+          </a>
+        </li>
+
+        <li class="menu-category-title">People & Finance</li>
+        <li class="menu-item">
+          <a href="pages/suppliers.html">
+            <span class="menu-icon">🚚</span>
+            <span>Suppliers</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="pages/customers.html">
+            <span class="menu-icon">👥</span>
+            <span>Customers</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="pages/payments.html">
+            <span class="menu-icon">💳</span>
+            <span>Payments</span>
+          </a>
+        </li>
+
+        <li class="menu-category-title">Analytics</li>
+        <li class="menu-item">
+          <a href="pages/reports.html">
+            <span class="menu-icon">📈</span>
+            <span>Reports</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <div class="user-avatar">AD</div>
+        <div class="user-info">
+          <div class="user-name">Manager Admin</div>
+          <div class="user-role">Super Admin</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ====================================================================
+         MAIN CONTENT
+         ==================================================================== -->
+    <div class="main-wrapper">
+      <!-- Topbar Header -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button id="mobile-menu-toggle" class="btn-icon-only" style="display: none;">☰</button>
+          <div class="page-title">
+            <h1>Dashboard Overview</h1>
+            <p>Welcome back! Here is what's happening in your grocery store today.</p>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <!-- Real-time Live Clock -->
+          <div class="time-badge" id="live-clock">
+            Loading date...
+          </div>
+
+          <a href="pages/sales.html" class="topbar-btn btn-primary">
+            <span>⚡</span> + Quick POS Sale
+          </a>
+        </div>
+      </header>
+
+      <!-- Page Content Body -->
+      <main class="page-content">
+
+        <!-- 1. KPI Cards Row -->
+        <div class="kpi-grid">
+          <div class="kpi-card sales">
+            <div class="kpi-icon">💰</div>
+            <div class="kpi-details">
+              <div class="kpi-label">Today's Sales</div>
+              <div class="kpi-value" id="kpi-today-sales">৳ 0</div>
+              <div class="kpi-subtext">
+                <span class="trend-up">↑ 18.2%</span> vs yesterday
+              </div>
+            </div>
+          </div>
+
+          <div class="kpi-card revenue">
+            <div class="kpi-icon">📈</div>
+            <div class="kpi-details">
+              <div class="kpi-label">Total Revenue</div>
+              <div class="kpi-value" id="kpi-total-revenue">৳ 0</div>
+              <div class="kpi-subtext">Lifetime total gross</div>
+            </div>
+          </div>
+
+          <div class="kpi-card alert">
+            <div class="kpi-icon">⚠️</div>
+            <div class="kpi-details">
+              <div class="kpi-label">Low & Out of Stock</div>
+              <div class="kpi-value" id="kpi-low-stock">0</div>
+              <div class="kpi-subtext">
+                <span class="trend-down">Action needed</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="kpi-card products">
+            <div class="kpi-icon">📦</div>
+            <div class="kpi-details">
+              <div class="kpi-label">Active Items</div>
+              <div class="kpi-value" id="kpi-total-products">0</div>
+              <div class="kpi-subtext">Across 7 categories</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Quick Actions Strip -->
+        <div class="quick-actions-bar">
+          <div class="actions-label">
+            <span>⚡</span> Quick Management Shortcuts:
+          </div>
+          <div class="action-buttons-group">
+            <a href="pages/sales.html" class="quick-btn primary-action">🛒 Open POS Register</a>
+            <a href="pages/products.html" class="quick-btn">📦 Add New Product</a>
+            <a href="pages/purchases.html" class="quick-btn">📥 Create Purchase</a>
+            <a href="pages/expenses.html" class="quick-btn">💸 Record Expense</a>
+            <a href="pages/reports.html" class="quick-btn">📊 View Daily Report</a>
+          </div>
+        </div>
+
+        <!-- 3. Visual Charts Grid (Pure SVG) -->
+        <div class="charts-grid">
+          <!-- Sales Curve -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">
+                  <span>📈</span> Weekly Sales Performance (Last 7 Days)
+                </div>
+                <div class="card-subtitle">Daily revenue trajectory in BDT (৳)</div>
+              </div>
+              <span class="badge badge-success">Live Track</span>
+            </div>
+            <div class="chart-wrapper" id="sales-chart-container">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+          <!-- Category Share Donut -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">
+                  <span>🥧</span> Category Sales Share
+                </div>
+                <div class="card-subtitle">Top revenue drivers</div>
+              </div>
+            </div>
+            <div class="chart-wrapper" id="category-donut-container">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Lower Details Grid: Recent Sales & Stock Alerts -->
+        <div class="dashboard-details-grid">
+          <!-- Recent Sales Table -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">
+                  <span>🧾</span> Recent Sales Transactions
+                </div>
+                <div class="card-subtitle">Latest orders processed at counter</div>
+              </div>
+              <a href="pages/sales.html" class="quick-btn" style="font-size: 0.78rem; padding: 6px 12px;">View All Sales →</a>
+            </div>
+            <div class="table-responsive">
+              <table class="custom-table">
+                <thead>
+                  <tr>
+                    <th>Invoice ID</th>
+                    <th>Customer</th>
+                    <th>Items</th>
+                    <th>Amount</th>
+                    <th>Payment</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="recent-sales-tbody">
+                  <!-- Rendered via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Stock Alerts Feed -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">
+                  <span>⚠️</span> Stock & Expiry Alerts
+                </div>
+                <div class="card-subtitle">Items requiring immediate restocking</div>
+              </div>
+              <a href="pages/inventory.html" class="quick-btn" style="font-size: 0.78rem; padding: 6px 12px;">Inventory →</a>
+            </div>
+            <div class="stock-alert-list" id="stock-alerts-container">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Quick Invoice Modal -->
+  <div class="modal-overlay" id="dashboard-invoice-modal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3>Customer Receipt</h3>
+        <button class="modal-close" onclick="closeModal('dashboard-invoice-modal')">&times;</button>
+      </div>
+      <div class="modal-body" id="dashboard-invoice-body">
+        <!-- Rendered dynamically -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeModal('dashboard-invoice-modal')">Close</button>
+        <button class="btn-primary" onclick="window.print()">🖨️ Print Receipt</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/common.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

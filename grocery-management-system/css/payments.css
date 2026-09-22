@@ -1,0 +1,38 @@
+/* ==========================================================================
+   PAYMENTS SPECIFIC STYLES (Pure Vanilla CSS)
+   ========================================================================== */
+
+.payment-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.payment-type-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.payment-type-badge.inward {
+  background: var(--primary-light);
+  color: var(--primary-hover);
+}
+
+.payment-type-badge.outward {
+  background: var(--danger-light);
+  color: var(--danger);
+}
+
+.voucher-box {
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  background: #fafafa;
+  margin-bottom: 16px;
+}

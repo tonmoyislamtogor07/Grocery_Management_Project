@@ -1,0 +1,22 @@
+/* ==========================================================================
+   EXPENSES SPECIFIC STYLES (Pure Vanilla CSS)
+   ========================================================================== */
+
+.expense-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.expense-cat-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: var(--bg-main);
+  border: 1px solid var(--border);
+}

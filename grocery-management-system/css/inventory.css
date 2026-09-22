@@ -1,0 +1,80 @@
+/* ==========================================================================
+   INVENTORY SPECIFIC STYLES (Pure Vanilla CSS)
+   ========================================================================== */
+
+.inventory-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.inventory-filter-tabs {
+  display: flex;
+  gap: 8px;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  overflow-x: auto;
+}
+
+.inv-tab-btn {
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  transition: var(--transition);
+}
+
+.inv-tab-btn:hover {
+  background: var(--bg-main);
+  color: var(--text-main);
+}
+
+.inv-tab-btn.active {
+  background: var(--primary);
+  color: #ffffff;
+  border-color: var(--primary);
+  box-shadow: 0 4px 10px var(--primary-glow);
+}
+
+.inv-tab-btn .badge-count {
+  padding: 2px 6px;
+  border-radius: 9999px;
+  font-size: 0.72rem;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.inv-tab-btn.active .badge-count {
+  background: rgba(255, 255, 255, 0.25);
+  color: #fff;
+}
+
+/* Progress bar for stock level */
+.stock-bar-track {
+  width: 100px;
+  height: 6px;
+  border-radius: 9999px;
+  background: #e2e8f0;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.stock-bar-fill {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.3s ease;
+}
+
+.stock-bar-fill.healthy { background: var(--primary); }
+.stock-bar-fill.warning { background: var(--warning); }
+.stock-bar-fill.danger { background: var(--danger); }

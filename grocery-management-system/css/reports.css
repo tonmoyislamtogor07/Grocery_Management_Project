@@ -1,0 +1,123 @@
+/* ==========================================================================
+   REPORTS SPECIFIC STYLES (Pure Vanilla CSS)
+   ========================================================================== */
+
+.reports-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* Left Report Categories Nav */
+.reports-nav-card {
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  padding: 16px;
+  position: sticky;
+  top: 90px;
+}
+
+.report-nav-group-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text-muted);
+  padding: 8px 12px 4px;
+}
+
+.report-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  border: none;
+  background: transparent;
+  color: var(--text-main);
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  transition: var(--transition);
+  margin-bottom: 2px;
+}
+
+.report-nav-item:hover {
+  background: var(--bg-main);
+}
+
+.report-nav-item.active {
+  background: var(--primary-light);
+  color: var(--primary);
+  font-weight: 700;
+}
+
+/* Right Report View Container */
+.report-content-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.report-header-card {
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  padding: 20px 24px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.report-chart-card {
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.report-chart-box {
+  width: 100%;
+  height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Top selling product rank badge */
+.rank-badge {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--bg-main);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.82rem;
+  color: var(--text-main);
+}
+
+.rank-badge.top1 { background: #fef3c7; color: #b45309; border-color: #fde68a; }
+.rank-badge.top2 { background: #f1f5f9; color: #475569; border-color: #cbd5e1; }
+.rank-badge.top3 { background: #ffedd5; color: #c2410c; border-color: #fed7aa; }
+
+@media (max-width: 1024px) {
+  .reports-layout {
+    grid-template-columns: 1fr;
+  }
+  .reports-nav-card {
+    position: static;
+  }
+}

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FreshMart - Sales Counter & POS Register</title>
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/sales.css">
+  <style>
+    @media print {
+      body * { visibility: hidden; }
+      #sale-receipt-modal, #sale-receipt-modal * { visibility: visible; }
+      #sale-receipt-modal { position: absolute; inset: 0; background: #fff; }
+      #sale-receipt-modal .modal-footer, #sale-receipt-modal .modal-header .modal-close { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-layout">
+    <!-- ====================================================================
+         SIDEBAR NAVIGATION
+         ==================================================================== -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-icon">🛒</div>
+        <div class="brand-text">
+          <h2>FreshMart</h2>
+          <span>Grocery ERP</span>
+        </div>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li class="menu-category-title">Core</li>
+        <li class="menu-item">
+          <a href="../index.html">
+            <span class="menu-icon">📊</span>
+            <span>Dashboard</span>
+          </a>
+        </li>
+
+        <li class="menu-category-title">Catalog & Stock</li>
+        <li class="menu-item">
+          <a href="products.html">
+            <span class="menu-icon">📦</span>
+            <span>Products</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="categories.html">
+            <span class="menu-icon">📑</span>
+            <span>Categories</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="inventory.html">
+            <span class="menu-icon">🏷️</span>
+            <span>Inventory</span>
+          </a>
+        </li>
+
+        <li class="menu-category-title">Operations</li>
+        <li class="menu-item active">
+          <a href="sales.html">
+            <span class="menu-icon">🛒</span>
+            <span>Sales (POS)</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="purchases.html">
+            <span class="menu-icon">📥</span>
+            <span>Purchases</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="expenses.html">
+            <span class="menu-icon">💸</span>
+            <span>Expenses</span>
+          </a>
+        </li>
+
+        <li class="menu-category-title">People & Finance</li>
+        <li class="menu-item">
+          <a href="suppliers.html">
+            <span class="menu-icon">🚚</span>
+            <span>Suppliers</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="customers.html">
+            <span class="menu-icon">👥</span>
+            <span>Customers</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="payments.html">
+            <span class="menu-icon">💳</span>
+            <span>Payments</span>
+          </a>
+        </li>
+
+        <li class="menu-category-title">Analytics</li>
+        <li class="menu-item">
+          <a href="reports.html">
+            <span class="menu-icon">📈</span>
+            <span>Reports</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <div class="user-avatar">AD</div>
+        <div class="user-info">
+          <div class="user-name">Manager Admin</div>
+          <div class="user-role">Super Admin</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ====================================================================
+         MAIN CONTENT
+         ==================================================================== -->
+    <div class="main-wrapper">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button id="mobile-menu-toggle" class="btn-icon-only" style="display: none;">☰</button>
+          <div class="page-title">
+            <h1>Point of Sale (POS)</h1>
+            <p>Fast checkout counter, instant barcode search, and thermal receipt printing.</p>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <div class="time-badge" id="live-clock">
+            Loading date...
+          </div>
+          <button class="topbar-btn btn-secondary" onclick="clearCart()">
+            <span>🗑️</span> Reset Cart
+          </button>
+        </div>
+      </header>
+
+      <main class="page-content">
+
+        <!-- Tabs Navigation -->
+        <div class="sales-tab-nav">
+          <button class="tab-btn active" id="tab-btn-pos">
+            <span>🛒</span> POS Billing Counter
+          </button>
+          <button class="tab-btn" id="tab-btn-history">
+            <span>📜</span> Sales History & Invoices
+          </button>
+        </div>
+
+        <!-- ================================================================
+             VIEW 1: POS BILLING COUNTER (DEFAULT)
+             ================================================================ -->
+        <div class="pos-layout" id="pos-view-section">
+
+          <!-- Left Column: Product Selection -->
+          <div class="pos-catalog-column">
+            <div class="pos-product-search-bar">
+              <div class="filter-input-wrap">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="pos-search-input" placeholder="Scan barcode or type grocery item name...">
+              </div>
+            </div>
+
+            <!-- Category Pills -->
+            <div class="category-pills-bar" id="category-pills-container">
+              <!-- Rendered via JS -->
+            </div>
+
+            <!-- Products Card Grid -->
+            <div class="pos-product-grid" id="pos-products-grid">
+              <!-- Rendered dynamically via sales.js -->
+            </div>
+          </div>
+
+          <!-- Right Column: Live Register Bill Panel -->
+          <div class="pos-bill-card">
+            <div class="pos-bill-header">
+              <div>
+                <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--text-main);">Current Register</h3>
+                <span style="font-size: 0.78rem; color: var(--text-muted);">Instant stock sync enabled</span>
+              </div>
+              <span class="badge badge-success" id="cart-badge-count">0 items</span>
+            </div>
+
+            <!-- Customer Selection (optional: walk-in allowed, no forced account) -->
+            <div class="form-group" style="margin-bottom: 12px;">
+              <label for="pos-customer-select" style="font-size: 0.8rem; font-weight: 700;">Customer Account (optional)</label>
+              <div style="display: flex; gap: 8px;">
+                <select id="pos-customer-select" class="form-control" style="padding: 8px 12px; font-size: 0.85rem; flex: 1;">
+                  <!-- Populated via JS -->
+                </select>
+                <button type="button" class="btn-secondary" style="padding: 8px 12px; white-space: nowrap;" title="Register a customer without leaving POS" onclick="openQuickCustomerModal()">＋ New</button>
+              </div>
+            </div>
+
+            <!-- Cart column headers: Product | Qty | Unit | Price | Subtotal -->
+            <div class="cart-header-row">
+              <span style="flex: 1;">Product</span>
+              <span style="width: 110px; text-align: center;">Qty</span>
+              <span style="width: 44px; text-align: center;">Unit</span>
+              <span style="width: 70px; text-align: right;">Subtotal</span>
+              <span style="width: 24px;"></span>
+            </div>
+            <!-- Cart Items List -->
+            <div class="cart-items-container" id="cart-items-container">
+              <!-- Rendered via JS -->
+            </div>
+
+            <!-- Calculation Sheet -->
+            <div class="cart-calculation-sheet">
+              <div style="display: flex; justify-content: space-between;">
+                <span style="color: var(--text-muted);">Subtotal:</span>
+                <strong id="pos-subtotal">৳ 0</strong>
+              </div>
+
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="color: var(--text-muted);">Special Discount (৳):</span>
+                <input type="number" id="pos-discount" class="form-control" style="width: 100px; padding: 4px 8px; text-align: right;" value="0" min="0">
+              </div>
+
+              <div style="display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: 800; color: var(--primary); border-top: 1px dashed var(--border); padding-top: 8px;">
+                <span>Grand Total:</span>
+                <span id="pos-grand-total">৳ 0</span>
+              </div>
+            </div>
+
+            <!-- Payment Method Selector -->
+            <div style="margin-top: 14px;">
+              <label style="font-size: 0.8rem; font-weight: 700; color: var(--text-main);">Payment Method</label>
+              <div class="payment-method-selector">
+                <button type="button" class="method-btn active" data-method="Cash">💵 Cash</button>
+                <button type="button" class="method-btn" data-method="bKash">📱 bKash</button>
+                <button type="button" class="method-btn" data-method="Card">💳 Card</button>
+              </div>
+            </div>
+
+            <!-- Paid Amount & Change Return -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px;">
+              <div class="form-group" style="margin: 0;">
+                <label for="pos-paid-amount" style="font-size: 0.78rem; font-weight: 600;">Paid Cash (৳)</label>
+                <input type="number" id="pos-paid-amount" class="form-control" style="padding: 8px 10px; font-weight: 700;" value="0">
+              </div>
+              <div class="form-group" style="margin: 0;">
+                <label style="font-size: 0.78rem; font-weight: 600; color: var(--text-muted);">Change Return</label>
+                <div id="pos-change-return" style="padding: 8px 10px; font-weight: 800; color: var(--primary); font-size: 1rem; background: var(--bg-main); border-radius: var(--radius-sm); border: 1px solid var(--border);">
+                  ৳ 0
+                </div>
+              </div>
+            </div>
+
+            <!-- Complete Sale Button -->
+            <button type="button" class="btn-complete-sale" onclick="handleCompleteSale()">
+              <span>⚡</span> Complete Sale & Print Receipt
+            </button>
+          </div>
+
+        </div>
+
+        <!-- ================================================================
+             VIEW 2: SALES HISTORY & INVOICES
+             ================================================================ -->
+        <div id="history-view-section" style="display: none;">
+          <div class="card" style="padding: 16px 24px; margin-bottom: 24px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+              <div class="search-box" style="width: 360px;">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="history-search-input" oninput="renderSalesHistory()" placeholder="Search invoice #, customer name, or date...">
+              </div>
+              <span class="badge badge-purple">All Registered Transactions</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="table-responsive">
+              <table class="custom-table">
+                <thead>
+                  <tr>
+                    <th>Invoice ID</th>
+                    <th>Date & Time</th>
+                    <th>Customer</th>
+                    <th>Items</th>
+                    <th>Total Amount</th>
+                    <th>Payment Method</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="sales-history-tbody">
+                  <!-- Rendered dynamically via sales.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       MODAL: QUICK CUSTOMER REGISTRATION (inside POS, all fields optional)
+       ==================================================================== -->
+  <div class="modal-overlay" id="quick-customer-modal">
+    <div class="modal-container" style="max-width: 460px;">
+      <div class="modal-header">
+        <h3>Quick Add Customer</h3>
+        <button class="modal-close" onclick="closeModal('quick-customer-modal')">&times;</button>
+      </div>
+      <form id="quick-customer-form" onsubmit="handleSaveQuickCustomer(event)">
+        <div class="modal-body">
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px;">All fields optional. Leave empty and use Walk-in Customer for anonymous sales.</p>
+          <div class="form-group">
+            <label for="quick-cust-name">Name</label>
+            <input type="text" id="quick-cust-name" class="form-control" placeholder="e.g. Togor">
+          </div>
+          <div class="form-group">
+            <label for="quick-cust-phone">Mobile Number</label>
+            <input type="text" id="quick-cust-phone" class="form-control" placeholder="01XXXXXXXXX">
+          </div>
+          <div class="form-group">
+            <label for="quick-cust-email">Email</label>
+            <input type="email" id="quick-cust-email" class="form-control" placeholder="example@gmail.com">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeModal('quick-customer-modal')">Cancel</button>
+          <button type="submit" class="btn-primary">Add & Select</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       MODAL: THERMAL PRINT RECEIPT / INVOICE
+       ==================================================================== -->
+  <div class="modal-overlay" id="sale-receipt-modal">
+    <div class="modal-container" style="max-width: 440px;">
+      <div class="modal-header">
+        <h3>POS Customer Receipt</h3>
+        <button class="modal-close" onclick="closeModal('sale-receipt-modal')">&times;</button>
+      </div>
+
+      <div class="modal-body" style="background: #fafafa;">
+        <div class="thermal-receipt" id="thermal-receipt-content">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeModal('sale-receipt-modal')">Close</button>
+        <button class="btn-primary" onclick="window.print()">🖨️ Print Receipt</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/common.js"></script>
+  <script src="../js/sales.js"></script>
+</body>
+</html>
